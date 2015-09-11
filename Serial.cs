@@ -175,9 +175,9 @@ namespace HomeRobotHUD
                         (byte)Convert.ToInt16(commandArray[3]),
                         (byte)Convert.ToInt16(commandArray[4]),
                         (byte)Convert.ToInt16(commandArray[5]),
-                        (byte)Convert.ToInt16(commandArray[5]),
-                        (byte)Convert.ToInt16(commandArray[5]),
-                        (byte)Convert.ToInt16(commandArray[5])
+                        (byte)Convert.ToInt16(commandArray[6]),
+                        (byte)Convert.ToInt16(commandArray[6]),
+                        (byte)Convert.ToInt16(commandArray[6])
                 }, 0, 8);
             }
             return false;

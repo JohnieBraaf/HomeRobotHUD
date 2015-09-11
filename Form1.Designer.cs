@@ -60,6 +60,7 @@
             this.Console_ListBox = new System.Windows.Forms.ListBox();
             this.Connect_Button = new System.Windows.Forms.Button();
             this.COMPort_ComboBox = new System.Windows.Forms.ComboBox();
+            this.DurationDisplay_Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Duration_TrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Torso_TrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Arms_TrackBar)).BeginInit();
@@ -154,7 +155,7 @@
             this.Decimal_TextBox.Name = "Decimal_TextBox";
             this.Decimal_TextBox.Size = new System.Drawing.Size(116, 20);
             this.Decimal_TextBox.TabIndex = 58;
-            this.Decimal_TextBox.Text = "255 0 0 0 0 0";
+            this.Decimal_TextBox.Text = "255 0 0 0 0 0 10";
             // 
             // DecimalSend_Button
             // 
@@ -198,9 +199,9 @@
             this.Duration_Label.AutoSize = true;
             this.Duration_Label.Location = new System.Drawing.Point(186, 330);
             this.Duration_Label.Name = "Duration_Label";
-            this.Duration_Label.Size = new System.Drawing.Size(98, 13);
+            this.Duration_Label.Size = new System.Drawing.Size(92, 13);
             this.Duration_Label.TabIndex = 53;
-            this.Duration_Label.Text = "Duration ( x100 ms)";
+            this.Duration_Label.Text = "Duration ( x50 ms)";
             // 
             // RightTrackModerator_Label
             // 
@@ -249,7 +250,7 @@
             this.Duration_TrackBar.Size = new System.Drawing.Size(309, 45);
             this.Duration_TrackBar.TabIndex = 48;
             this.Duration_TrackBar.TickFrequency = 16;
-            this.Duration_TrackBar.Value = 5;
+            this.Duration_TrackBar.Value = 10;
             this.Duration_TrackBar.Scroll += new System.EventHandler(this.TrackBar_Scroll);
             // 
             // Torso_TrackBar
@@ -290,6 +291,7 @@
             this.LeftTrack_TrackBar.Minimum = -255;
             this.LeftTrack_TrackBar.Name = "LeftTrack_TrackBar";
             this.LeftTrack_TrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.LeftTrack_TrackBar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.LeftTrack_TrackBar.Size = new System.Drawing.Size(45, 292);
             this.LeftTrack_TrackBar.TabIndex = 45;
             this.LeftTrack_TrackBar.TickFrequency = 16;
@@ -305,6 +307,7 @@
             this.RightTrack_TrackBar.Minimum = -255;
             this.RightTrack_TrackBar.Name = "RightTrack_TrackBar";
             this.RightTrack_TrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.RightTrack_TrackBar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightTrack_TrackBar.Size = new System.Drawing.Size(45, 292);
             this.RightTrack_TrackBar.TabIndex = 44;
             this.RightTrack_TrackBar.TickFrequency = 16;
@@ -378,7 +381,7 @@
             this.Command_TextBox.Name = "Command_TextBox";
             this.Command_TextBox.Size = new System.Drawing.Size(116, 20);
             this.Command_TextBox.TabIndex = 38;
-            this.Command_TextBox.Text = "_ # # # # #";
+            this.Command_TextBox.Text = "_ # # # # # #";
             // 
             // Console_ListBox
             // 
@@ -407,11 +410,21 @@
             this.COMPort_ComboBox.TabIndex = 35;
             this.COMPort_ComboBox.Click += new System.EventHandler(this.Refresh_Button_Click);
             // 
+            // DurationDisplay_Label
+            // 
+            this.DurationDisplay_Label.AutoSize = true;
+            this.DurationDisplay_Label.Location = new System.Drawing.Point(445, 330);
+            this.DurationDisplay_Label.Name = "DurationDisplay_Label";
+            this.DurationDisplay_Label.Size = new System.Drawing.Size(41, 13);
+            this.DurationDisplay_Label.TabIndex = 67;
+            this.DurationDisplay_Label.Text = "500 ms";
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 665);
+            this.Controls.Add(this.DurationDisplay_Label);
             this.Controls.Add(this.LeftTrackReset_Button);
             this.Controls.Add(this.RightTrackReset_Button);
             this.Controls.Add(this.ChestReset_Button);
@@ -494,6 +507,7 @@
         public System.Windows.Forms.ListBox Console_ListBox;
         public System.Windows.Forms.Button Connect_Button;
         public System.Windows.Forms.ComboBox COMPort_ComboBox;
+        private System.Windows.Forms.Label DurationDisplay_Label;
     }
 }
 
