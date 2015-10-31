@@ -61,6 +61,9 @@
             this.Connect_Button = new System.Windows.Forms.Button();
             this.COMPort_ComboBox = new System.Windows.Forms.ComboBox();
             this.DurationDisplay_Label = new System.Windows.Forms.Label();
+            this.terminatedCommand_textBox = new System.Windows.Forms.TextBox();
+            this.terminatedSend_button = new System.Windows.Forms.Button();
+            this.TelnetConnect_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Duration_TrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Torso_TrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Arms_TrackBar)).BeginInit();
@@ -419,11 +422,42 @@
             this.DurationDisplay_Label.TabIndex = 67;
             this.DurationDisplay_Label.Text = "500 ms";
             // 
+            // terminatedCommand_textBox
+            // 
+            this.terminatedCommand_textBox.Location = new System.Drawing.Point(212, 179);
+            this.terminatedCommand_textBox.Name = "terminatedCommand_textBox";
+            this.terminatedCommand_textBox.Size = new System.Drawing.Size(116, 20);
+            this.terminatedCommand_textBox.TabIndex = 68;
+            this.terminatedCommand_textBox.Text = ">200;201;202;203;204";
+            // 
+            // terminatedSend_button
+            // 
+            this.terminatedSend_button.Location = new System.Drawing.Point(418, 176);
+            this.terminatedSend_button.Name = "terminatedSend_button";
+            this.terminatedSend_button.Size = new System.Drawing.Size(75, 23);
+            this.terminatedSend_button.TabIndex = 70;
+            this.terminatedSend_button.Text = "Send";
+            this.terminatedSend_button.UseVisualStyleBackColor = true;
+            this.terminatedSend_button.Click += new System.EventHandler(this.terminatedSend_button_Click);
+            // 
+            // TelnetConnect_Button
+            // 
+            this.TelnetConnect_Button.Location = new System.Drawing.Point(337, 177);
+            this.TelnetConnect_Button.Name = "TelnetConnect_Button";
+            this.TelnetConnect_Button.Size = new System.Drawing.Size(75, 23);
+            this.TelnetConnect_Button.TabIndex = 71;
+            this.TelnetConnect_Button.Text = "Connect";
+            this.TelnetConnect_Button.UseVisualStyleBackColor = true;
+            this.TelnetConnect_Button.Click += new System.EventHandler(this.TelnetConnect_Button_Click);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 665);
+            this.Controls.Add(this.TelnetConnect_Button);
+            this.Controls.Add(this.terminatedSend_button);
+            this.Controls.Add(this.terminatedCommand_textBox);
             this.Controls.Add(this.DurationDisplay_Label);
             this.Controls.Add(this.LeftTrackReset_Button);
             this.Controls.Add(this.RightTrackReset_Button);
@@ -508,6 +542,9 @@
         public System.Windows.Forms.Button Connect_Button;
         public System.Windows.Forms.ComboBox COMPort_ComboBox;
         private System.Windows.Forms.Label DurationDisplay_Label;
+        private System.Windows.Forms.TextBox terminatedCommand_textBox;
+        public System.Windows.Forms.Button terminatedSend_button;
+        public System.Windows.Forms.Button TelnetConnect_Button;
     }
 }
 

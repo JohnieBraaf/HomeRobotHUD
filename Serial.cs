@@ -11,7 +11,7 @@ namespace HomeRobotHUD
     {
         private SerialPort comPort = new SerialPort();
         private string PortName = "COM4";
-        private string BaudRate = "115200";
+        private string BaudRate = "57600";
         private string DataBit = "8";
         private string StopBit = "1";
         private string Parity = "0";
@@ -58,14 +58,27 @@ namespace HomeRobotHUD
                 {
                     Console.WriteLine("Cannot connect! A connection is currently open.");
                     Disconnect();
-                }
 
-                comPort.PortName = PortName;
-                comPort.BaudRate = int.Parse(BaudRate);
-                comPort.DataBits = int.Parse(DataBit);
-                comPort.StopBits = StopBits.One;
-                comPort.Parity = 0;
-                comPort.Open();
+                    try
+                    {
+                        if (comPort.BaseStream == null)
+                            Disconnect();
+                    }
+                    catch (Exception e)
+                    {
+                        Connect(PortName, BaudRate, DataBit, StopBit, Parity);
+                    }
+                }
+                else
+                {
+                    comPort.PortName = PortName;
+                    comPort.BaudRate = int.Parse(BaudRate);
+                    comPort.DataBits = int.Parse(DataBit);
+                    comPort.StopBits = StopBits.One;
+                    comPort.Parity = 0;
+                    comPort.Open();
+                }
+                
 
 
                 Console.WriteLine();
@@ -183,12 +196,23 @@ namespace HomeRobotHUD
             return false;
         }
 
+        public bool SendRawCommand(String command)
+        {
+            if (!String.IsNullOrEmpty(command))
+            {
+                char[] val = command.ToCharArray(0, command.Length);
+                GetSerialPort().Write(val, 0, command.Length);
+                return true;
+            }
+            return false;
+        }
+
         public void ReceiveData(object sender, SerialDataReceivedEventArgs e)
         {
             if (!GetSerialPort().IsOpen) return;
             int bytes = GetSerialPort().BytesToRead;
-            if (bytes > 8)
-            {
+            //if (bytes > 8)
+            //{
                 byte[] buffer = new byte[bytes];
                 GetSerialPort().Read(buffer, 0, bytes);
 
@@ -198,7 +222,7 @@ namespace HomeRobotHUD
                 //Console.WriteLine(sb.ToString().ToUpper());
 
                 MainForm.Invoke((MethodInvoker)delegate {
-                    var parts = (Encoding.Default.GetString(buffer)).Replace("\n", "").Split('\r');
+                    var parts = (Encoding.Default.GetString(buffer)).Replace("\r", "").Split('\n');
                     foreach(var part in parts)
                     {
                         if (Regex.Replace(part, @"\s+", " ").Length != 0)
@@ -209,7 +233,7 @@ namespace HomeRobotHUD
                         }
                     }
                 });
-            }
+            //}
         }
     }
 }

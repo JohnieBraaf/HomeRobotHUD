@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using PrimS.Telnet;
 
 namespace HomeRobotHUD
 {
@@ -153,6 +154,41 @@ namespace HomeRobotHUD
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             UpdateDecimalBox();
+        }
+
+        private void terminatedSend_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // SerialCOMPort.SendRawCommand(terminatedCommand_textBox.Text + "\r\n");
+                client.WriteLine(terminatedCommand_textBox.Text);
+                client.WriteLine(((byte)4).ToString());
+            }
+            catch (Exception ex)
+            {
+                Console_ListBox.Items.Add("Error: " + ex.Message);
+                int itemsPerPage = (int)(Console_ListBox.Height / Console_ListBox.ItemHeight);
+                Console_ListBox.TopIndex = Console_ListBox.Items.Count - itemsPerPage;
+            }
+            
+        }
+
+        Client client;
+        private async void TelnetConnect_Button_Click(object sender, EventArgs e)
+        {
+            client = new Client("192.168.137.94", 23, new System.Threading.CancellationToken());
+
+            while (true)
+            {
+                string s = await client.ReadAsync(TimeSpan.FromMilliseconds(1));
+                if (!s.Equals(""))
+                {
+                    Console_ListBox.Items.Add(s);
+                    int itemsPerPage = Console_ListBox.Height / Console_ListBox.ItemHeight;
+                    Console_ListBox.TopIndex = Console_ListBox.Items.Count - itemsPerPage;
+                }
+                    
+            }
         }
     }   
 }
