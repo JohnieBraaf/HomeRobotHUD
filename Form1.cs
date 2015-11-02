@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using PrimS.Telnet;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace HomeRobotHUD
 {
@@ -19,6 +21,7 @@ namespace HomeRobotHUD
         public Main_Form()
         {
             InitializeComponent();
+            IPAdress_Textbox.Text = GetRobotIP();
         }
 
         void Form1_Load(object sender, EventArgs e)
@@ -135,20 +138,7 @@ namespace HomeRobotHUD
             Math.Abs(LeftTrack_TrackBar.Value) + " " +
             Math.Abs(Torso_TrackBar.Value) + " " +
             Math.Abs(Arms_TrackBar.Value) + " " +
-            Math.Abs(Chest_TrackBar.Value) + " " +
-            Duration_TrackBar.Value;
-
-            DurationDisplay_Label.Text = (Duration_TrackBar.Value * 50) + " ms";
-        }
-
-        private void Reset_Button_Click(object sender, EventArgs e)
-        {
-            if (sender.Equals(LeftTrackReset_Button)) LeftTrack_TrackBar.Value = 0;
-            else if (sender.Equals(RightTrackReset_Button)) RightTrack_TrackBar.Value = 0;
-            else if (sender.Equals(TorsoReset_Button)) Torso_TrackBar.Value = 0;
-            else if (sender.Equals(ArmsReset_Button)) Arms_TrackBar.Value = 0;
-            else if (sender.Equals(ChestReset_Button)) Chest_TrackBar.Value = 0;
-            UpdateDecimalBox();
+            Math.Abs(Chest_TrackBar.Value);
         }
 
         private void TrackBar_Scroll(object sender, EventArgs e)
@@ -176,7 +166,7 @@ namespace HomeRobotHUD
         Client client;
         private async void TelnetConnect_Button_Click(object sender, EventArgs e)
         {
-            client = new Client("192.168.137.94", 23, new System.Threading.CancellationToken());
+            client = new Client(IPAdress_Textbox.Text, 23, new System.Threading.CancellationToken());
 
             while (true)
             {
@@ -189,6 +179,54 @@ namespace HomeRobotHUD
                 }
                     
             }
+        }
+
+        string GetRobotIP()
+        {
+            for (int i=2; i<256; i++)
+            {
+                if (IsServerUp("192.168.137." + i, 23, 50))
+                    return "192.168.137." + i;
+            }
+            return "";
+        }
+
+        public static bool IsServerUp(string server, int port, int timeout)
+        {
+            bool isUp;
+
+            try
+            {
+                using (TcpClient tcp = new TcpClient())
+                {
+                    IAsyncResult ar = tcp.BeginConnect(server, port, null, null);
+                    WaitHandle wh = ar.AsyncWaitHandle;
+
+                    try
+                    {
+                        if (!wh.WaitOne(TimeSpan.FromMilliseconds(timeout), false))
+                        {
+                            tcp.EndConnect(ar);
+                            tcp.Close();
+                            throw new SocketException();
+                        }
+
+                        isUp = true;
+                        tcp.EndConnect(ar);
+                    }
+                    finally
+                    {
+                        wh.Close();
+                    }
+                }
+            }
+            catch (SocketException e)
+            {
+                //LOGGER.Warn(string.Format("TCP connection to server {0} failed.", server), e);
+                isUp = false;
+            }
+
+            return isUp;
         }
     }   
 }
